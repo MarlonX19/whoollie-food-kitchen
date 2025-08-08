@@ -14,7 +14,9 @@ import {
 } from "./mock-data";
 
 function withLatency<T>(data: T, ms = 400): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(structuredClone(data)), ms));
+  return new Promise((resolve) =>
+    setTimeout(() => resolve(structuredClone(data)), ms)
+  );
 }
 
 export const api = {
@@ -47,5 +49,3 @@ export const api = {
     return withLatency(tickets);
   },
 };
-
-

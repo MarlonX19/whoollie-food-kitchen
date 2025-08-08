@@ -13,7 +13,10 @@ export default function CatalogPage() {
 
   useEffect(() => {
     async function load() {
-      const [cats, prods] = await Promise.all([api.listCategories(), api.listProducts()]);
+      const [cats, prods] = await Promise.all([
+        api.listCategories(),
+        api.listProducts(),
+      ]);
       setCategories(cats);
       setProducts(prods);
     }
@@ -59,7 +62,10 @@ export default function CatalogPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((p) => (
-          <div key={p.id} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm">
+          <div
+            key={p.id}
+            className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm"
+          >
             <div className="text-lg font-medium">{p.name}</div>
             <div className="text-zinc-600">{currencyBRL(p.price)}</div>
             {p.flags?.length ? (
@@ -80,5 +86,3 @@ export default function CatalogPage() {
     </div>
   );
 }
-
-

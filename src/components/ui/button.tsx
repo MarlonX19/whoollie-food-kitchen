@@ -16,10 +16,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       danger: "bg-rose-600 text-white hover:bg-rose-700",
     };
     return (
-      <button ref={ref} className={cn(base, variants[variant], className)} {...props} />
+      <button
+        ref={ref}
+        className={cn(base, variants[variant], className)}
+        {...props}
+      />
     );
   }
 );
 Button.displayName = "Button";
-
-
