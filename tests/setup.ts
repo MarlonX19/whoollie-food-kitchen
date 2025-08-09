@@ -1,6 +1,6 @@
 import { Window } from "happy-dom";
 import React from "react";
-import { mock, afterEach } from "bun:test";
+import { mock, afterEach } from "bun:test"; // This import will fail if 'bun:test' is not available
 
 // Initialize DOM environment for React Testing Library using happy-dom
 const happyWindow = new Window();

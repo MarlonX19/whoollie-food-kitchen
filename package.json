@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "bun test"
+    "test": "bun test",
+    "prepare": "husky"
   },
   "dependencies": {
     "lucide-react": "^0.539.0",
@@ -27,6 +28,7 @@
     "@testing-library/react": "^16.0.1",
     "@testing-library/jest-dom": "^6.6.3",
     "happy-dom": "^15.11.7",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
