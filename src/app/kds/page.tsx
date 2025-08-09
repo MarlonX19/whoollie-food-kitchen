@@ -1,20 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { api } from "@/lib/mock-api";
-import type { KitchenTicket } from "@/lib/mock-data";
+import { useMemo, useState } from "react";
+import { useDb } from "@/lib/mock-db";
+import { Button } from "@/components/ui/button";
 
 export default function KdsPage() {
-  const [tickets, setTickets] = useState<KitchenTicket[]>([]);
+  const { tickets, markTicketDone } = useDb();
   const [station, setStation] = useState<string>("");
-
-  useEffect(() => {
-    async function load() {
-      const t = await api.listKitchenTickets();
-      setTickets(t);
-    }
-    load();
-  }, []);
 
   const filtered = useMemo(
     () => (station ? tickets.filter((t) => t.station === station) : tickets),
@@ -47,6 +39,9 @@ export default function KdsPage() {
             <div className="text-lg font-medium">{t.productName}</div>
             <div className="text-zinc-700">Qtd: {t.qty}</div>
             <div className="text-xs text-zinc-500">Pedido: {t.orderId}</div>
+            <div className="mt-3 flex justify-end">
+              <Button onClick={() => markTicketDone(t.id)}>Pronto</Button>
+            </div>
           </div>
         ))}
       </div>

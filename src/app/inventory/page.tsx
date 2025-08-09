@@ -1,20 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { api } from "@/lib/mock-api";
+import { useMemo, useState } from "react";
 import type { Ingredient } from "@/lib/mock-data";
+import { useDb } from "@/lib/mock-db";
 
 export default function InventoryPage() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const { ingredients } = useDb();
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    async function load() {
-      const list = await api.listIngredients();
-      setIngredients(list);
-    }
-    load();
-  }, []);
 
   const filtered = useMemo(
     () =>

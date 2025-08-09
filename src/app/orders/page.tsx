@@ -1,28 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { api } from "@/lib/mock-api";
+import { useMemo, useState } from "react";
 import type { Order, Product } from "@/lib/mock-data";
 import { currencyBRL } from "@/lib/utils";
+import { useDb } from "@/lib/mock-db";
+import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/lib/auth";
+import { can } from "@/lib/rbac";
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { orders, products, advanceOrderStatus } = useDb();
   const [status, setStatus] = useState<string>("");
+  const role = useAuthStore((s) => s.user?.role);
 
-  useEffect(() => {
-    async function load() {
-      const [o, p] = await Promise.all([api.listOrders(), api.listProducts()]);
-      setOrders(o);
-      setProducts(p);
-    }
-    load();
-  }, []);
-
-  const filtered = useMemo(
-    () => (status ? orders.filter((o) => o.status === status) : orders),
-    [orders, status]
-  );
+  const filtered = useMemo(() => {
+    const list: Order[] = status ? orders.filter((o) => o.status === status) : orders;
+    return list;
+  }, [orders, status]);
 
   return (
     <div className="space-y-4">
@@ -58,7 +52,7 @@ export default function OrdersPage() {
                 <div className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-800">
                   {o.status}
                 </div>
-              </div>
+            </div>
               <div className="mt-2 text-lg font-medium">
                 {o.type === "table" ? `Mesa ${o.tableNumber}` : o.type}
               </div>
@@ -75,6 +69,11 @@ export default function OrdersPage() {
               <div className="mt-2 text-right text-zinc-800">
                 {currencyBRL(total)}
               </div>
+              {can(role, "advance_orders") && (
+                <div className="mt-3 flex justify-end">
+                  <Button onClick={() => advanceOrderStatus(o.id)}>Avançar status</Button>
+                </div>
+              )}
             </div>
           );
         })}

@@ -1,27 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { api } from "@/lib/mock-api";
+import { useMemo, useState } from "react";
 import type { Category, Product } from "@/lib/mock-data";
 import { currencyBRL } from "@/lib/utils";
+import { useDb } from "@/lib/mock-db";
 
 export default function CatalogPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { categories, products } = useDb();
   const [filter, setFilter] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
-
-  useEffect(() => {
-    async function load() {
-      const [cats, prods] = await Promise.all([
-        api.listCategories(),
-        api.listProducts(),
-      ]);
-      setCategories(cats);
-      setProducts(prods);
-    }
-    load();
-  }, []);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {

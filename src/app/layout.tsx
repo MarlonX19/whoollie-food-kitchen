@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MainNav } from "@/components/layout/main-nav";
+import { UserUnit } from "@/components/layout/user-unit";
 import "./globals.css";
 import { LogoutButton } from "./logout-button";
 
@@ -33,7 +34,10 @@ export default function RootLayout({
             <Link href="/dashboard" className="text-lg font-semibold text-amber-700">
               Whoollie Kitchen
             </Link>
-            <MainNav />
+            <div className="flex items-center gap-3">
+              <MainNav />
+              <UserUnit />
+            </div>
             <LogoutButton />
           </div>
         </header>
