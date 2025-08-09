@@ -1,32 +1,28 @@
+/// <reference types="bun-types" />
 import { Window } from "happy-dom";
 import React from "react";
-import { mock, afterEach } from "bun:test"; // This import will fail if 'bun:test' is not available
+import { mock, afterEach } from "bun:test";
+import "@testing-library/jest-dom";
 
 // Initialize DOM environment for React Testing Library using happy-dom
 const happyWindow = new Window();
 const happyDocument = happyWindow.document;
 
 // Attach minimal globals
-// @ts-expect-error assign
-globalThis.window = happyWindow as unknown as Window & typeof globalThis;
-// @ts-expect-error assign
-globalThis.document = happyDocument as unknown as Document;
-// @ts-expect-error assign
-globalThis.HTMLElement =
-  happyWindow.HTMLElement as unknown as typeof HTMLElement;
-// @ts-expect-error assign
-globalThis.Node = happyWindow.Node as unknown as typeof Node;
-// @ts-expect-error assign
-globalThis.navigator = { userAgent: "happy-dom" } as unknown as Navigator;
-// @ts-expect-error assign
-globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
-  setTimeout(() => cb(Date.now()), 16);
-// @ts-expect-error assign
-globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id);
+globalThis.window = happyWindow as any;
+globalThis.document = happyDocument as any;
+globalThis.HTMLElement = happyWindow.HTMLElement as any;
+globalThis.Node = happyWindow.Node as any;
+globalThis.navigator = { userAgent: "happy-dom" } as any;
+globalThis.requestAnimationFrame = happyWindow.requestAnimationFrame.bind(
+  happyWindow
+) as any;
+globalThis.cancelAnimationFrame = happyWindow.cancelAnimationFrame.bind(
+  happyWindow
+) as any;
 
 // Load testing-library after globals are ready and register cleanup
 const { cleanup } = await import("@testing-library/react");
-await import("@testing-library/jest-dom");
 afterEach(() => cleanup());
 
 declare global {
