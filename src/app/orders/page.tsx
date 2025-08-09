@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Order, Product } from "@/lib/mock-data";
+import type { Order } from "@/lib/mock-data";
 import { currencyBRL } from "@/lib/utils";
 import { useDb } from "@/lib/mock-db";
 import { Button } from "@/components/ui/button";

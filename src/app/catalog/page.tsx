@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Category, Product } from "@/lib/mock-data";
 import { currencyBRL } from "@/lib/utils";
 import { useDb } from "@/lib/mock-db";
 

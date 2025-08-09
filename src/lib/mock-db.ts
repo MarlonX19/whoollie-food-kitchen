@@ -9,7 +9,14 @@ import type {
   Product,
   Recipe,
 } from "./mock-data";
-import { categories as seedCategories, products as seedProducts, ingredients as seedIngredients, orders as seedOrders, tickets as seedTickets, recipes as seedRecipes } from "./mock-data";
+import {
+  categories as seedCategories,
+  products as seedProducts,
+  ingredients as seedIngredients,
+  orders as seedOrders,
+  tickets as seedTickets,
+  recipes as seedRecipes,
+} from "./mock-data";
 
 export type DbState = {
   categories: Category[];
@@ -21,13 +28,14 @@ export type DbState = {
   advanceOrderStatus: (orderId: string) => void;
   setOrderStatus: (orderId: string, status: Order["status"]) => void;
   markTicketDone: (ticketId: string) => void;
+  addIngredient: (data: Omit<Ingredient, "id">) => void;
 };
 
 function clone<T>(v: T): T {
   return structuredClone(v);
 }
 
-export const useDb = create<DbState>((set, get) => ({
+export const useDb = create<DbState>((set) => ({
   categories: clone(seedCategories),
   products: clone(seedProducts),
   ingredients: clone(seedIngredients),
@@ -66,7 +74,7 @@ export const useDb = create<DbState>((set, get) => ({
             const idx = ingredients.findIndex((i) => i.id === ri.ingredientId);
             if (idx >= 0) {
               const loss = recipe.yieldPercent ?? 1;
-              const qty = ri.quantity * item.qty / (loss || 1);
+              const qty = (ri.quantity * item.qty) / (loss || 1);
               ingredients[idx] = {
                 ...ingredients[idx],
                 stock: Math.max(0, Number(ingredients[idx].stock) - qty),
@@ -82,13 +90,29 @@ export const useDb = create<DbState>((set, get) => ({
 
   setOrderStatus(orderId, status) {
     set((state) => ({
-      orders: state.orders.map((o) => (o.id === orderId ? { ...o, status } : o)),
+      orders: state.orders.map((o) =>
+        o.id === orderId ? { ...o, status } : o
+      ),
     }));
   },
 
   markTicketDone(ticketId) {
-    set((state) => ({ tickets: state.tickets.filter((t) => t.id !== ticketId) }));
+    set((state) => ({
+      tickets: state.tickets.filter((t) => t.id !== ticketId),
+    }));
+  },
+
+  addIngredient(data) {
+    const generateId = (name: string) =>
+      `i_${name.toLowerCase().replace(/\s+/g, "_")}_${Date.now()}`;
+    const newIngredient: Ingredient = {
+      id: generateId(data.name),
+      name: data.name,
+      unit: data.unit,
+      stock: Number(data.stock) || 0,
+      minLevel: data.minLevel,
+      maxLevel: data.maxLevel,
+    };
+    set((state) => ({ ingredients: [newIngredient, ...state.ingredients] }));
   },
 }));
-
-
