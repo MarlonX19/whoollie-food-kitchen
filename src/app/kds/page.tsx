@@ -34,7 +34,10 @@ export default function KdsPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((t) => (
-          <div key={t.id} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm">
+          <div
+            key={t.id}
+            className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm"
+          >
             <div className="text-sm text-zinc-600">{t.station}</div>
             <div className="text-lg font-medium">{t.productName}</div>
             <div className="text-zinc-700">Qtd: {t.qty}</div>
@@ -48,5 +51,3 @@ export default function KdsPage() {
     </div>
   );
 }
-
-

@@ -10,7 +10,9 @@ export default function InventoryPage() {
 
   const filtered = useMemo(
     () =>
-      ingredients.filter((i) => i.name.toLowerCase().includes(query.toLowerCase())),
+      ingredients.filter((i) =>
+        i.name.toLowerCase().includes(query.toLowerCase())
+      ),
     [ingredients, query]
   );
 
@@ -51,5 +53,3 @@ export default function InventoryPage() {
     </div>
   );
 }
-
-

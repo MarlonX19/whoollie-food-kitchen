@@ -14,7 +14,9 @@ export default function OrdersPage() {
   const role = useAuthStore((s) => s.user?.role);
 
   const filtered = useMemo(() => {
-    const list: Order[] = status ? orders.filter((o) => o.status === status) : orders;
+    const list: Order[] = status
+      ? orders.filter((o) => o.status === status)
+      : orders;
     return list;
   }, [orders, status]);
 
@@ -46,13 +48,16 @@ export default function OrdersPage() {
             return acc + (p ? p.price * it.qty : 0);
           }, 0);
           return (
-            <div key={o.id} className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm">
+            <div
+              key={o.id}
+              className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm"
+            >
               <div className="flex items-center justify-between text-sm text-zinc-600">
                 <div>#{o.id}</div>
                 <div className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-800">
                   {o.status}
                 </div>
-            </div>
+              </div>
               <div className="mt-2 text-lg font-medium">
                 {o.type === "table" ? `Mesa ${o.tableNumber}` : o.type}
               </div>
@@ -71,7 +76,9 @@ export default function OrdersPage() {
               </div>
               {can(role, "advance_orders") && (
                 <div className="mt-3 flex justify-end">
-                  <Button onClick={() => advanceOrderStatus(o.id)}>Avançar status</Button>
+                  <Button onClick={() => advanceOrderStatus(o.id)}>
+                    Avançar status
+                  </Button>
                 </div>
               )}
             </div>
@@ -81,5 +88,3 @@ export default function OrdersPage() {
     </div>
   );
 }
-
-

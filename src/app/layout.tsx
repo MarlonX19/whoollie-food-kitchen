@@ -28,10 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-amber-50`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-amber-50`}
+      >
         <header className="sticky top-0 z-10 border-b border-amber-200 bg-white/80 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between p-4">
-            <Link href="/dashboard" className="text-lg font-semibold text-amber-700">
+            <Link
+              href="/dashboard"
+              className="text-lg font-semibold text-amber-700"
+            >
               Whoollie Kitchen
             </Link>
             <div className="flex items-center gap-3">
